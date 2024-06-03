@@ -11,7 +11,7 @@ app.http('httpTrigger1', {
         return { 
             status: 200, // Ensure to specify status code
             headers: { "Content-Type": "application/json" }, // Specify the content type
-            body: { text: `Hello, ${name}!` }  // Return JSON object
+            body: JSON.stringify({ text: `Hello, ${name}!` })  // Return JSON object
         };
     }
 });
