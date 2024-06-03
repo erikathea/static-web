@@ -8,4 +8,14 @@ document.getElementById('migp-form').addEventListener('submit', function(event) 
     //   .then(data => console.log(data))
     //  .catch(error => console.error('Error:', error));
   });
-  
+
+
+(async function() {
+    try {
+        const response = await fetch(`/api/httpTrigger1`);
+        const data = await response.json();
+        document.querySelector('#name').textContent = data.text;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+})();
