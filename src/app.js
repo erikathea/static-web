@@ -10,12 +10,17 @@ document.getElementById('migp-form').addEventListener('submit', function(event) 
   });
 
 
-(async function() {
+  (async function() {
     try {
+        // Perform a GET request
         const cs_get_response = await fetch('https://cs-az-func.azurewebsites.net/api/HttpTrigger1');
+        if (!cs_get_response.ok) {
+            throw new Error(`HTTP error! Status: ${cs_get_response.status}`);
+        }
         const get_resp = await cs_get_response.json();
         document.querySelector('#cs-func-get').textContent = get_resp.text;
 
+        // Perform a POST request
         const cs_post_response = await fetch('https://cs-az-func.azurewebsites.net/api/HttpTrigger1', {
             method: 'POST',
             headers: {
@@ -27,7 +32,6 @@ document.getElementById('migp-form').addEventListener('submit', function(event) 
         if (!cs_post_response.ok) {
             throw new Error(`HTTP error! Status: ${cs_post_response.status}`);
         }
-
         const post_resp = await cs_post_response.json();
         document.querySelector('#cs-func-post').textContent = post_resp.text;
     } catch (error) {
