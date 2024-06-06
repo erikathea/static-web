@@ -12,9 +12,23 @@ document.getElementById('migp-form').addEventListener('submit', function(event) 
 
 (async function() {
     try {
-        const response = await fetch(`/api/httpTrigger1`);
-        const data = await response.json();
-        document.querySelector('#name').textContent = data.text;
+        const cs_get_response = await fetch('https://cs-az-func.azurewebsites.net/api/HttpTrigger1');
+        const get_resp = await cs_get_response.json();
+        document.querySelector('#cs-func-get').textContent = get_resp.text;
+
+        const cs_post_response = await fetch('https://cs-az-func.azurewebsites.net/api/HttpTrigger1', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ name: 'world' })
+        });
+
+        if (!cs_post_response.ok) {
+            throw new Error(`HTTP error! Status: ${cs_post_response.status}`);
+        }
+        const post_resp = await cs_post_response.json();
+        document.querySelector('#cs-func-post').textContent = post_resp.text;
     } catch (error) {
         console.error('Error:', error);
     }
