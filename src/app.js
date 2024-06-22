@@ -36,7 +36,7 @@ document.getElementById('migp-form').addEventListener('submit', function(event) 
   (async function() {
     try {
         // Perform a GET request
-        const cs_get_response = await fetch('https://cs-az-func.azurewebsites.net/api/HttpTrigger1');
+        const cs_get_response = await fetch('https://cs-az-func-migp.azurewebsites.net/api/HttpTrigger1');
         if (!cs_get_response.ok) {
             throw new Error(`HTTP error! Status: ${cs_get_response.status}`);
         }
@@ -44,7 +44,7 @@ document.getElementById('migp-form').addEventListener('submit', function(event) 
         document.querySelector('#cs-func-get').textContent = get_resp.text;
 
         // Perform a POST request
-        const cs_post_response = await fetch('https://cs-az-func.azurewebsites.net/api/HttpTrigger1', {
+        const cs_post_response = await fetch('https://cs-az-func-migp.azurewebsites.net/api/HttpTrigger1', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
