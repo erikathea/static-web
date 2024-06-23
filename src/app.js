@@ -5,13 +5,10 @@ document.getElementById('migp-form').addEventListener('submit', function(event) 
     const password = document.getElementById('password').value;
     const serializedData = serializeUsernamePassword(username, password);
     console.log(serializedData);
-    // TODO
-    // queryMIGP('http://your-go-server.com', username, password)
-    //   .then(data => console.log(data))
-    //  .catch(error => console.error('Error:', error));
-  });
+    sendSerializedData(serializedData);
+});
 
-  function serializeUsernamePassword(username, password) {
+function serializeUsernamePassword(username, password) {
     // Convert username and password to Uint8Array if they are not already
     if (!(username instanceof Uint8Array)) username = new Uint8Array(username);
     if (!(password instanceof Uint8Array)) password = new Uint8Array(password);
@@ -32,8 +29,47 @@ document.getElementById('migp-form').addEventListener('submit', function(event) 
     return buf;
 }
 
+function sendSerializedData(serializedData) {
+    fetch('https://cs-az-func-migp.azurewebsites.net/api/migpQuery', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/octet-stream' // Set the content type as binary data
+        },
+        body: serializedData
+    })
+    .then(response => response.json()) // Assuming the response is JSON
+    .then(data => {
+        console.log('Success:', data);
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+}
 
-  (async function() {
+function testSerializeFunction() {
+    const username = "testUser";
+    const password = "testPassword123";
+
+    const serializedData = serializeUsernamePassword(username, password);
+
+    console.log(serializedData);
+
+    const view = new DataView(serializedData.buffer);
+    const usernameLength = view.getUint16(0, false); // false for big endian
+    const passwordLength = view.getUint16(2 + usernameLength, false);
+
+    console.log("Username Length:", usernameLength);
+    console.log("Password Length:", passwordLength);
+
+    const usernameArray = serializedData.slice(2, 2 + usernameLength);
+    const passwordArray = serializedData.slice(4 + usernameLength);
+
+    console.log("Username Array:", new TextDecoder().decode(usernameArray));
+    console.log("Password Array:", new TextDecoder().decode(passwordArray));
+}
+testSerializeFunction();
+
+(async function() {
     try {
         // Perform a GET request
         const cs_get_response = await fetch('https://cs-az-func-migp.azurewebsites.net/api/HttpTrigger1');
