@@ -5,13 +5,15 @@ document.getElementById('migp-form').addEventListener('submit', function(event) 
     const password = document.getElementById('password').value;
     const serializedData = serializeUsernamePassword(username, password);
     console.log(serializedData);
+
+    // Send the serialized data to the API endpoint
     sendSerializedData(serializedData);
 });
 
 function serializeUsernamePassword(username, password) {
-    // Convert username and password to Uint8Array if they are not already
-    if (!(username instanceof Uint8Array)) username = new Uint8Array(username);
-    if (!(password instanceof Uint8Array)) password = new Uint8Array(password);
+    // Convert username and password to Uint8Array using TextEncoder
+    if (!(username instanceof Uint8Array)) username = new TextEncoder().encode(username);
+    if (!(password instanceof Uint8Array)) password = new TextEncoder().encode(password);
 
     if (username.length > (1 << 16) || password.length > (1 << 16)) {
         throw new Error("Length overflow");
@@ -54,6 +56,7 @@ function testSerializeFunction() {
 
     console.log(serializedData);
 
+    // Verify the result by inspecting the buffer contents
     const view = new DataView(serializedData.buffer);
     const usernameLength = view.getUint16(0, false); // false for big endian
     const passwordLength = view.getUint16(2 + usernameLength, false);
@@ -67,7 +70,9 @@ function testSerializeFunction() {
     console.log("Username Array:", new TextDecoder().decode(usernameArray));
     console.log("Password Array:", new TextDecoder().decode(passwordArray));
 }
+
 testSerializeFunction();
+
 
 (async function() {
     try {
