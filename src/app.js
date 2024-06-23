@@ -4,9 +4,10 @@ document.getElementById('migp-form').addEventListener('submit', function(event) 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const serializedData = serializeUsernamePassword(username, password);
+    const base64Data = arrayBufferToBase64(serializedData);
 
+    sendSerializedData(base64Data);
     testSerializeFunction(serializedData);
-    sendSerializedData(serializedData);
 });
 
 function serializeUsernamePassword(username, password) {
