@@ -4,9 +4,8 @@ document.getElementById('migp-form').addEventListener('submit', function(event) 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
     const serializedData = serializeUsernamePassword(username, password);
-    console.log(serializedData);
 
-    // Send the serialized data to the API endpoint
+    testSerializeFunction(serializedData);
     sendSerializedData(serializedData);
 });
 
@@ -48,19 +47,13 @@ function sendSerializedData(serializedData) {
     });
 }
 
-function testSerializeFunction() {
-    const username = "testUser";
-    const password = "testPassword123";
-
-    const serializedData = serializeUsernamePassword(username, password);
-
-    console.log(serializedData);
-
+function testSerializeFunction(serializedData) {
     // Verify the result by inspecting the buffer contents
     const view = new DataView(serializedData.buffer);
     const usernameLength = view.getUint16(0, false); // false for big endian
     const passwordLength = view.getUint16(2 + usernameLength, false);
 
+    console.log(serializedData);
     console.log("Username Length:", usernameLength);
     console.log("Password Length:", passwordLength);
 
@@ -70,8 +63,6 @@ function testSerializeFunction() {
     console.log("Username Array:", new TextDecoder().decode(usernameArray));
     console.log("Password Array:", new TextDecoder().decode(passwordArray));
 }
-
-testSerializeFunction();
 
 
 (async function() {
