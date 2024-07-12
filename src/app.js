@@ -1,13 +1,20 @@
-document.getElementById('migp-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent the form from submitting normally
-  
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    const serializedData = serializeUsernamePassword(username, password);
-    const base64Data = arrayBufferToBase64(serializedData);
+document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent the form from submitting normally
 
-    sendSerializedData(base64Data);
-    testSerializeFunction(serializedData);
+        const username = form.querySelector('.username').value;
+        const password = form.querySelector('.password').value;
+        const serializedData = serializeUsernamePassword(username, password);
+        const base64Data = arrayBufferToBase64(serializedData);
+        
+        if (form.classList.contains('migp-form')) {
+            sendSerializedData(base64Data, 'https://cs-az-func-migp.azurewebsites.net/api/migpQuery');
+        } else if (form.classList.contains('migp2-form')) {
+            sendSerializedData(base64Data, 'https://cs-az-func-migp.azurewebsites.net/api/migpQuery2');
+        }
+        
+        testSerializeFunction(serializedData);
+    });
 });
 
 function serializeUsernamePassword(username, password) {
@@ -31,8 +38,8 @@ function serializeUsernamePassword(username, password) {
     return buf;
 }
 
-function sendSerializedData(serializedData) {
-    fetch('https://cs-az-func-migp.azurewebsites.net/api/migpQuery', {
+function sendSerializedData(serializedData, url) {
+    fetch(url, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/octet-stream' // Set the content type as binary data
