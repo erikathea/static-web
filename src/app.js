@@ -6,11 +6,12 @@ document.querySelectorAll('form').forEach(form => {
         const password = form.querySelector('.password').value;
         const serializedData = serializeUsernamePassword(username, password);
         const base64Data = arrayBufferToBase64(serializedData);
+        const statusElement = form.querySelector('.status');
         
         if (form.classList.contains('migp-form')) {
-            sendSerializedData(base64Data, 'https://cs-az-func-migp.azurewebsites.net/api/migpQuery');
+            sendSerializedData(base64Data, 'https://cs-az-func-migp.azurewebsites.net/api/migpQuery', statusElement);
         } else if (form.classList.contains('migp2-form')) {
-            sendSerializedData(base64Data, 'https://cs-az-func-migp.azurewebsites.net/api/migpQuery2');
+            sendSerializedData(base64Data, 'https://cs-az-func-migp.azurewebsites.net/api/migpQuery2', statusElement);
         }
         
         testSerializeFunction(serializedData);
@@ -38,7 +39,7 @@ function serializeUsernamePassword(username, password) {
     return buf;
 }
 
-function sendSerializedData(serializedData, url) {
+function sendSerializedData(serializedData, url, statusElement) {
     fetch(url, {
         method: 'POST',
         headers: {
@@ -46,9 +47,10 @@ function sendSerializedData(serializedData, url) {
         },
         body: serializedData
     })
-    .then(response => response.json()) // Assuming the response is JSON
+    .then(response => response.json())
     .then(data => {
         console.log('Success:', data);
+        statusElement.innerText = data.status;
     })
     .catch((error) => {
         console.error('Error:', error);
