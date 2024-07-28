@@ -1,0 +1,19 @@
+{
+    "dataset_path": "./dataset/4iq-cleaned-Train-ready.txt",
+    "vocabfile_path": "./tokenizer/vocab.json",
+    "model_path": "./model/",
+    "log_path": "./log/",
+    "resume_from_checkpoint": null,
+    "random_seed": 42,
+    "num_processer": 32,
+    "input_size": 32,
+    "embed_size": 384,
+    "layer_num": 8,
+    "head_num": 12,
+    "epoch_num": 30,
+    "batch_size": 512,
+    "eval_step": 2000,
+    "save_step": 6000,
+    "early_stop": 3,
+    "local_rank": -1
+}
