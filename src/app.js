@@ -7,16 +7,36 @@ document.querySelectorAll('form').forEach(form => {
         const serializedData = serializeUsernamePassword(username, password);
         const base64Data = arrayBufferToBase64(serializedData);
         const statusElement = form.querySelector('.status');
+        const loglikelihoodElement = form.querySelector('.log-likelihood');
         
         if (form.classList.contains('migp-form')) {
             sendSerializedData(base64Data, 'https://cs-az-func-migp.azurewebsites.net/api/migpQuery', statusElement);
         } else if (form.classList.contains('migp2-form')) {
             sendSerializedData(base64Data, 'https://cs-az-func-migp.azurewebsites.net/api/migpQuery2', statusElement);
+            computeLogLikelihood(password, loglikelihoodElement);
         }
         
         testSerializeFunction(serializedData);
     });
 });
+
+function computeLogLikelihood(password, statusElement) {
+    fetch(`https://ml-az-func.azurewebsites.net/hello?password=${encodeURIComponent(password)}`)
+        .then(response => response.json())
+        .then(data => {
+            if (statusElement) {
+                console.log(data)
+                const similarityStatus = data < 3.99 ? 'similar' : 'not similar';
+                statusElement.textContent = `${similarityStatus} (${data})`;
+            }
+        })
+        .catch(error => {
+            console.error('Error computing log likelihood:', error);
+            if (statusElement) {
+                statusElement.textContent = 'Error computing log likelihood';
+            }
+        });
+}
 
 function serializeUsernamePassword(username, password) {
     // Convert username and password to Uint8Array using TextEncoder
