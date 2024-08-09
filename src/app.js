@@ -104,6 +104,18 @@ function testSerializeFunction(serializedData) {
     console.log("Password Array:", new TextDecoder().decode(passwordArray));
 }
 
+document.querySelectorAll('.password').forEach(passwordInput => {
+    const charCount = passwordInput.nextElementSibling;
+    passwordInput.addEventListener('input', function() {
+        const remainingChars = 32 - this.value.length;
+        charCount.textContent = `${this.value.length} / 32`;
+        
+        if (remainingChars < 0) {
+            this.value = this.value.slice(0, 32);
+            charCount.textContent = '32 / 32';
+        }
+    });
+});
 
 (async function() {
     try {
