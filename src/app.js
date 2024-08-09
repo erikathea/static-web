@@ -2,7 +2,8 @@ document.querySelectorAll('form').forEach(form => {
     form.addEventListener('submit', function(event) {
         event.preventDefault(); // Prevent the form from submitting normally
 
-        const username = form.querySelector('.username').value;
+        const usernameField = form.querySelector('.username');
+        const username = usernameField ? usernameField.value : null;
         const password = form.querySelector('.password').value;
         const serializedData = serializeUsernamePassword(username, password);
         const base64Data = arrayBufferToBase64(serializedData);
