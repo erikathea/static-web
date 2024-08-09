@@ -5,13 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="styles.css">
-  <title>Vanilla JS Client</title>
+  <title>CIC-13 Demo: MIGP 2.0</title>
 </head>
 
 <body>
   <main>
     <h2>CIC-13 Demo</h2>
-    <p>Test API connection: <b id="cs-func-get">...</b> <b id="cs-func-post">...</b></p>
+    <p>Might I Get Pwned (MIGP) API connection: <b id="cs-func-get">...</b> <b id="cs-func-post">...</b></p>
 
     <h3> MIGP 1.0 </h3>
     <form class="migp-form">
@@ -37,6 +37,15 @@
           <li>At least 1 digit</li>
           <li>At least 1 symbol</li>
         </ul>
+      <label>Status: </label><span class="status"></span><br/>
+      <label>Log Likelihood: </label><span class="log-likelihood"></span><br/>
+      <input type="submit" value="Submit">
+    </form>
+
+    <h3>PagPassGPT LogLikelihood</h3>
+    <form class="pagpassgpt">
+      <label>Password:</label><br/>
+      <input type="password" class="password" name="password"><span class="char-count">0 / 32</span><br/>
       <label>Status: </label><span class="status"></span><br/>
       <label>Log Likelihood: </label><span class="log-likelihood"></span><br/>
       <input type="submit" value="Submit">

@@ -14,6 +14,8 @@ document.querySelectorAll('form').forEach(form => {
         } else if (form.classList.contains('migp2-form')) {
             sendSerializedData(base64Data, 'https://cs-az-func-migp.azurewebsites.net/api/migpQuery2', statusElement);
             computeLogLikelihood(password, loglikelihoodElement);
+        } else if (form.classList.contains('pagpassgpt')) {
+            computeLogLikelihood(password, loglikelihoodElement);
         }
         
         testSerializeFunction(serializedData);
