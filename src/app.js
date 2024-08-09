@@ -29,7 +29,16 @@ function computeLogLikelihood(password, statusElement) {
         .then(data => {
             if (statusElement) {
                 console.log(data)
-                const similarityStatus = data < 3.99 ? 'similar' : 'not similar';
+                let similarityStatus;
+                if (data < 2.0) {
+                    similarityStatus = 'very similar';
+                } else if (data >= 2.0 && data < 3.25) {
+                    similarityStatus = 'similar';
+                } else if (data >= 3.25 && data <= 4.0) {
+                    similarityStatus = 'fairly similar';
+                } else {
+                    similarityStatus = 'outliers';
+                }
                 statusElement.textContent = `${similarityStatus} (${data})`;
             }
         })
