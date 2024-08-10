@@ -97,8 +97,10 @@
   <main>
     <h2>CIC-13 Demo: Might I Get Pwned (MIGP) + PagPassGPT</h2>
     <p>Might I Get Pwned (MIGP) API connection: <br/> <b id="cs-func-get">...</b> <b id="cs-func-post">...</b></p>
+    <hr/>
 
     <h3>PagPassGPT LogLikelihood</h3>
+    <h5>a perceptual similarity score</h5>
     <form class="pagpassgpt">
       <label>Password:</label><br/>
       <input type="password" class="password" name="password"><span class="char-count">0 / 32</span><br/>
@@ -107,8 +109,8 @@
       <label>Log Likelihood: </label><span class="log-likelihood"></span><br/>
     </form>
 
-    <h3>PagPassGPT Password Variants</h3>
-    <label>Password Policy:</label><br/>
+    <h4>Password Variants</h>
+    <label>Password Policy:</label>
     <ul>
       <li>At least 8 characters long</li>
       <li>At least 1 uppercase letter</li>
@@ -120,6 +122,7 @@
     <label class="password-variants"></label>
 
     <hr/>
+
     <h3> MIGP 1.0 </h3>
     <form class="migp-form">
       <label>Email Address:</label><br/>
@@ -129,6 +132,8 @@
       <input type="submit" value="Submit"><br/>
       <label>Status: </label><span class="status"></span><br/>
     </form>
+
+    <hr/>
 
     <h3> MIGP 2.0 </h3>
     <form class="migp2-form">
