@@ -14,38 +14,55 @@ document.querySelectorAll('form').forEach(form => {
             sendSerializedData(base64Data, 'https://cs-az-func-migp.azurewebsites.net/api/migpQuery', statusElement);
         } else if (form.classList.contains('migp2-form')) {
             sendSerializedData(base64Data, 'https://cs-az-func-migp.azurewebsites.net/api/migpQuery2', statusElement);
-            computeLogLikelihood(password, loglikelihoodElement);
+            callPagPassGPT(password, loglikelihoodElement);
         } else if (form.classList.contains('pagpassgpt')) {
-            computeLogLikelihood(password, loglikelihoodElement);
+            callPagPassGPT(password, loglikelihoodElement);
         }
         
         testSerializeFunction(serializedData);
     });
 });
 
-function computeLogLikelihood(password, statusElement) {
+function callPagPassGPT(password, statusElement) {
     fetch(`https://ml-az-func.azurewebsites.net/hello?password=${encodeURIComponent(password)}`)
         .then(response => response.json())
         .then(data => {
             if (statusElement) {
                 console.log(data)
                 let similarityStatus;
-                if (data < 2.0) {
+                const logLikelihood = parseFloat(data.log_likelihood); 
+                if (logLikelihood < 2.0) {
                     similarityStatus = 'very similar';
-                } else if (data >= 2.0 && data < 3.25) {
+                } else if (logLikelihood >= 2.0 && logLikelihood < 3.25) {
                     similarityStatus = 'similar';
-                } else if (data >= 3.25 && data <= 4.0) {
+                } else if (logLikelihood >= 3.25 && logLikelihood <= 4.0) {
                     similarityStatus = 'fairly similar';
                 } else {
                     similarityStatus = 'outliers';
                 }
-                statusElement.textContent = `${similarityStatus} (${data})`;
+                statusElement.textContent = `${similarityStatus} (${logLikelihood})`;
+
+                const pw_variants = data.variants;
+                const variantsElement = document.querySelector('.password-variants');
+                
+                if (variantsElement) {
+                    variantsElement.innerHTML = '';
+
+                    const variantsList = document.createElement('ul');
+                    pw_variants.forEach(variant => {
+                        const listItem = document.createElement('li');
+                        listItem.textContent = variant; 
+                        variantsList.appendChild(listItem); 
+                    });
+
+                    variantsElement.appendChild(variantsList);
+                }
             }
         })
         .catch(error => {
-            console.error('Error computing log likelihood:', error);
+            console.error('Error calling PagPassGPT:', error);
             if (statusElement) {
-                statusElement.textContent = 'Error computing log likelihood';
+                statusElement.textContent = 'Error calling PagPassGPT';
             }
         });
 }
