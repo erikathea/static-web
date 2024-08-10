@@ -136,6 +136,7 @@ function testSerializeFunction(serializedData) {
 document.querySelectorAll('.password').forEach(passwordInput => {
     const charCount = passwordInput.nextElementSibling;
     passwordInput.addEventListener('input', function() {
+        const passwordLength = this.value.length;
         const remainingChars = 32 - this.value.length;
         charCount.textContent = `${this.value.length} / 32`;
         
