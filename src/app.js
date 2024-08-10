@@ -143,6 +143,12 @@ document.querySelectorAll('.password').forEach(passwordInput => {
             this.value = this.value.slice(0, 32);
             charCount.textContent = '32 / 32';
         }
+        if (passwordLength < 4) {
+            charCount.style.color = 'red';
+            charCount.textContent += ' (Password must be at least 4 characters long)';
+        } else {
+            charCount.style.color = '';
+        }
     });
 });
 

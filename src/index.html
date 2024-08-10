@@ -103,8 +103,8 @@
       <label>Email Address:</label><br/>
       <input type="text" class="username" name="username"><br/>
       <label>Password:</label><br/>
-      <input type="submit" value="Submit">
       <input type="password" class="password" name="password"><span class="char-count">0 / 32</span><br/>
+      <input type="submit" value="Submit"><br/>
       <label>Status: </label><span class="status"></span><br/>
     </form>
 
@@ -114,15 +114,7 @@
       <input type="text" class="username" name="username"><br/>
       <label>Password:</label><br/>
       <input type="password" class="password" name="password"><span class="char-count">0 / 32</span><br/>
-      <label>Password Policy:</label><br/>
-        <ul>
-          <li>At least 8 characters long</li>
-          <li>At least 1 uppercase letter</li>
-          <li>At least 1 lowercase letter</li>
-          <li>At least 1 digit</li>
-          <li>At least 1 symbol</li>
-        </ul>
-      <input type="submit" value="Submit">
+      <input type="submit" value="Submit"><br/>
 
       <label>Status: </label><span class="status"></span><br/>
       <label>Log Likelihood: </label><span class="log-likelihood"></span><br/>
@@ -132,12 +124,21 @@
     <form class="pagpassgpt">
       <label>Password:</label><br/>
       <input type="password" class="password" name="password"><span class="char-count">0 / 32</span><br/>
-      <input type="submit" value="Submit">
+      <input type="submit" value="Submit"><br/>
 
       <label>Log Likelihood: </label><span class="log-likelihood"></span><br/>
     </form>
 
     <h3>PagPassGPT Password Variants</h3>
+    <label>Password Policy:</label><br/>
+    <ul>
+      <li>At least 8 characters long</li>
+      <li>At least 1 uppercase letter</li>
+      <li>At least 1 lowercase letter</li>
+      <li>At least 1 digit</li>
+      <li>At least 1 symbol</li>
+    </ul>
+    <br/>
     <label class="password-variants"></label>
   </main>
 
